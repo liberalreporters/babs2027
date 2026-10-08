@@ -1,370 +1,76 @@
-/* =========================================================
-   BABATUNDE OGUNLADE WEBSITE
-   MAIN JAVASCRIPT
-   ========================================================= */
-
-"use strict";
-
-
-/* =========================
-   DOM READY
-   ========================= */
-
 document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector(".site-header");
+  const menuToggle = document.querySelector(".menu-toggle");
+  const nav = document.querySelector(".primary-nav");
 
-  initMobileNavigation();
-
-  initHeaderScroll();
-
-  initCurrentYear();
-
-  initActiveNavigation();
-
-  initSmoothScrolling();
-
-});
-
-
-/* =========================
-   MOBILE NAVIGATION
-   ========================= */
-
-function initMobileNavigation() {
-
-  const menuToggle = document.getElementById("menuToggle");
-  const primaryNav = document.getElementById("primaryNav");
-
-  if (!menuToggle || !primaryNav) {
-    return;
-  }
-
-
-  menuToggle.addEventListener("click", () => {
-
-    const isOpen =
-      primaryNav.classList.toggle("open");
-
-    menuToggle.classList.toggle(
-      "active",
-      isOpen
-    );
-
-    menuToggle.setAttribute(
-      "aria-expanded",
-      String(isOpen)
-    );
-
-    menuToggle.setAttribute(
-      "aria-label",
-      isOpen
-        ? "Close navigation menu"
-        : "Open navigation menu"
-    );
-
-    document.body.classList.toggle(
-      "no-scroll",
-      isOpen
-    );
-
-  });
-
-
-  /* Close menu after clicking a link */
-
-  const navLinks =
-    primaryNav.querySelectorAll("a");
-
-  navLinks.forEach((link) => {
-
-    link.addEventListener("click", () => {
-
-      primaryNav.classList.remove("open");
-
-      menuToggle.classList.remove("active");
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-      menuToggle.setAttribute(
-        "aria-label",
-        "Open navigation menu"
-      );
-
-      document.body.classList.remove(
-        "no-scroll"
-      );
-
+  if (menuToggle && nav) {
+    menuToggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.classList.toggle("no-scroll", open);
     });
 
-  });
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open menu");
+        document.body.classList.remove("no-scroll");
+      });
+    });
 
+    document.addEventListener("click", event => {
+      if (!nav.contains(event.target) && !menuToggle.contains(event.target)) {
+        nav.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("no-scroll");
+      }
+    });
 
-  /* Close menu when clicking outside */
-
-  document.addEventListener("click", (event) => {
-
-    const clickedInsideNav =
-      primaryNav.contains(event.target);
-
-    const clickedToggle =
-      menuToggle.contains(event.target);
-
-    if (
-      !clickedInsideNav &&
-      !clickedToggle &&
-      primaryNav.classList.contains("open")
-    ) {
-
-      primaryNav.classList.remove("open");
-
-      menuToggle.classList.remove("active");
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-      menuToggle.setAttribute(
-        "aria-label",
-        "Open navigation menu"
-      );
-
-      document.body.classList.remove(
-        "no-scroll"
-      );
-
-    }
-
-  });
-
-
-  /* Close mobile menu on desktop resize */
-
-  window.addEventListener("resize", () => {
-
-    if (window.innerWidth > 760) {
-
-      primaryNav.classList.remove("open");
-
-      menuToggle.classList.remove("active");
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-      menuToggle.setAttribute(
-        "aria-label",
-        "Open navigation menu"
-      );
-
-      document.body.classList.remove(
-        "no-scroll"
-      );
-
-    }
-
-  });
-
-}
-
-
-/* =========================
-   HEADER SCROLL EFFECT
-   ========================= */
-
-function initHeaderScroll() {
-
-  const header =
-    document.getElementById("siteHeader");
-
-  if (!header) {
-    return;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 720) {
+        nav.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("no-scroll");
+      }
+    });
   }
 
-
-  const updateHeader =
-    () => {
-
-      if (window.scrollY > 20) {
-
-        header.classList.add("scrolled");
-
-      } else {
-
-        header.classList.remove("scrolled");
-
-      }
-
-    };
-
-
+  const updateHeader = () => header?.classList.toggle("scrolled", window.scrollY > 20);
   updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
 
+  const year = document.getElementById("currentYear");
+  if (year) year.textContent = new Date().getFullYear();
 
-  window.addEventListener(
-    "scroll",
-    updateHeader,
-    { passive: true }
-  );
-
-}
-
-
-/* =========================
-   CURRENT YEAR
-   ========================= */
-
-function initCurrentYear() {
-
-  const yearElement =
-    document.getElementById("currentYear");
-
-  if (!yearElement) {
-    return;
-  }
-
-
-  yearElement.textContent =
-    new Date().getFullYear();
-
-}
-
-
-/* =========================
-   ACTIVE NAVIGATION
-   ========================= */
-
-function initActiveNavigation() {
-
-  const currentPage =
-    window.location.pathname
-      .split("/")
-      .pop()
-      .toLowerCase();
-
-
-  const page =
-    currentPage === ""
-      ? "index.html"
-      : currentPage;
-
-
-  const navLinks =
-    document.querySelectorAll(
-      ".primary-nav a"
-    );
-
-
-  navLinks.forEach((link) => {
-
-    const href =
-      link.getAttribute("href");
-
-
-    if (!href) {
-      return;
+  const current = location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".primary-nav a").forEach(link => {
+    const target = link.getAttribute("href");
+    if (target === current || (current === "" && target === "index.html")) {
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
     }
-
-
-    const linkPage =
-      href
-        .split("/")
-        .pop()
-        .split("#")[0]
-        .toLowerCase();
-
-
-    link.classList.toggle(
-      "active",
-      linkPage === page
-    );
-
   });
 
-}
+  document.querySelectorAll('[data-demo-form]').forEach(form => {
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const status = form.querySelector("[data-form-status]");
+      if (status) status.textContent = "Thank you. This demonstration form is ready to be connected to a live form endpoint.";
+      form.reset();
+    });
+  });
 
-
-/* =========================
-   SMOOTH SCROLLING
-   ========================= */
-
-function initSmoothScrolling() {
-
-  const links =
-    document.querySelectorAll(
-      'a[href^="#"]'
-    );
-
-
-  links.forEach((link) => {
-
-    link.addEventListener(
-      "click",
-      (event) => {
-
-        const targetId =
-          link.getAttribute("href");
-
-
-        if (
-          !targetId ||
-          targetId === "#"
-        ) {
-          return;
-        }
-
-
-        const target =
-          document.querySelector(targetId);
-
-
-        if (!target) {
-          return;
-        }
-
-
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", event => {
+      const id = link.getAttribute("href");
+      if (!id || id === "#") return;
+      const target = document.querySelector(id);
+      if (target) {
         event.preventDefault();
-
-
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
-
-        /*
-         * Update browser URL without
-         * causing a page jump.
-         */
-
-        history.pushState(
-          null,
-          "",
-          targetId
-        );
-
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    );
-
+    });
   });
-
-}
-
-
-/* =========================
-   EXTERNAL LINKS
-   ========================= */
-
-document.querySelectorAll(
-  'a[target="_blank"]'
-).forEach((link) => {
-
-  link.setAttribute(
-    "rel",
-    "noopener noreferrer"
-  );
-
 });
