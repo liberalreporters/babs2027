@@ -1,0 +1,91 @@
+backend:
+name: github
+repo: liberalreporters/babs2027
+branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+site_url: "https://babatundeogunlade.com"
+display_url: "https://babatundeogunlade.com"
+
+publish_mode: simple
+
+collections:
+
+- name: "pages"
+  label: "Website Pages"
+  files:
+  
+  - name: "home"
+    label: "Homepage"
+    file: "content/home.json"
+    format: "json"
+    fields:
+    - label: "Page Title"
+      name: "title"
+      widget: "string"
+      required: true
+    
+    - label: "Introduction"
+      name: "introduction"
+      widget: "text"
+      required: true
+    
+    - label: "Profile Image"
+      name: "image"
+      widget: "image"
+      required: false
+    
+    - label: "Image Alt Text"
+      name: "image_alt"
+      widget: "string"
+      required: false
+    
+    - label: "Welcome Message"
+      name: "welcome_message"
+      widget: "markdown"
+      required: false
+
+- name: "media"
+  label: "Media Gallery"
+  folder: "content/media"
+  create: true
+  slug: "{{slug}}"
+  extension: "md"
+  format: "frontmatter"
+  fields:
+  
+  - label: "Title"
+    name: "title"
+    widget: "string"
+    required: true
+  
+  - label: "Description"
+    name: "description"
+    widget: "text"
+    required: false
+  
+  - label: "Publication Date"
+    name: "date"
+    widget: "datetime"
+    required: true
+  
+  - label: "Featured Image"
+    name: "image"
+    widget: "image"
+    required: false
+  
+  - label: "Additional Images"
+    name: "gallery"
+    widget: "list"
+    required: false
+    field:
+    label: "Image"
+    name: "image"
+    widget: "image"
+  
+  - label: "Content"
+    name: "body"
+    widget: "markdown"
+    required: false
