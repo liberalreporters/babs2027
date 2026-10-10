@@ -1,15 +1,101 @@
-<script>
-  window.CMS_MANUAL_INIT = true;
-</script>
+backend:
+  name: github
+  repo: liberalreporters/babs2027
+  branch: main
 
-<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+# Require an authenticated GitHub session.
+# A compatible OAuth authentication service is still required.
 
-<script>
-  if (window.CMS) {
-    window.CMS.init({
-      config: {
-        load_config_file: true
-      }
-    });
-  }
-</script>
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+site_url: "https://babatundeogunlade.com"
+display_url: "https://babatundeogunlade.com"
+
+locale: "en"
+
+publish_mode: editorial_workflow
+
+collections:
+  - name: "pages"
+    label: "Website Pages"
+    files:
+      - name: "home"
+        label: "Homepage"
+        file: "content/home.json"
+        format: "json"
+        fields:
+          - label: "Page Title"
+            name: "title"
+            widget: "string"
+
+          - label: "Subtitle"
+            name: "subtitle"
+            widget: "string"
+
+          - label: "Introduction"
+            name: "introduction"
+            widget: "text"
+
+          - label: "Main Image"
+            name: "image"
+            widget: "image"
+            required: false
+
+  - name: "news"
+    label: "News and Updates"
+    folder: "content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Headline"
+        name: "title"
+        widget: "string"
+
+      - label: "Publication Date"
+        name: "date"
+        widget: "datetime"
+
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "text"
+
+      - label: "Featured Image"
+        name: "featured_image"
+        widget: "image"
+        required: false
+
+      - label: "Article Body"
+        name: "body"
+        widget: "markdown"
+
+  - name: "media"
+    label: "Media Centre"
+    folder: "content/media"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+
+      - label: "Image"
+        name: "image"
+        widget: "image"
+        required: false
+
+      - label: "Content"
+        name: "body"
+        widget: "markdown"
