@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Content Manager — BABS 2027</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+  <h1 style="padding:20px">BABS 2027 — CMS</h1>
+  <div id="cms-root"></div>
+
+  <!-- Decap / Netlify CMS bundle -->
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+  <script>
+    // Point the CMS to the config file in this repo
+    if (window.CMS) {
+      window.CMS.init({ config: '/admin/config.yml' });
+    }
+  </script>
+</body>
+</html>

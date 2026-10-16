@@ -1,0 +1,69 @@
+backend:
+  name: github
+  repo: liberalreporters/babs2027 # Change if the repository moves
+  branch: main
+
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+collections:
+  - name: "news"
+    label: "News"
+    files:
+      - file: "data/news.json"
+        label: "News JSON"
+        name: "news-json"
+        fields:
+          - { label: "News Items", name: "news", widget: "list", summary: "{{title}}", fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Date", name: "date", widget: "datetime" }
+              - { label: "Excerpt", name: "excerpt", widget: "text" }
+              - { label: "Content", name: "content", widget: "markdown" }
+              - { label: "URL", name: "url", widget: "string" }
+            }
+
+  - name: "announcements"
+    label: "Announcements"
+    files:
+      - file: "data/announcements.json"
+        label: "Announcements JSON"
+        name: "announcements-json"
+        fields:
+          - { label: "Announcements", name: "announcements", widget: "list", summary: "{{title}}", fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Date", name: "date", widget: "datetime" }
+              - { label: "Content", name: "content", widget: "markdown" }
+            }
+
+  - name: "gallery"
+    label: "Gallery"
+    files:
+      - file: "data/gallery.json"
+        label: "Gallery JSON"
+        name: "gallery-json"
+        fields:
+          - { label: "Gallery Items", name: "gallery", widget: "list", summary: "{{title}}", fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Image", name: "src", widget: "image" }
+              - { label: "Alt text", name: "alt", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Caption", name: "caption", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+            }
+
+  - name: "press"
+    label: "Press"
+    files:
+      - file: "data/press.json"
+        label: "Press JSON"
+        name: "press-json"
+        fields:
+          - { label: "Press Items", name: "press", widget: "list", summary: "{{title}}", fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Date", name: "date", widget: "datetime" }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+            }

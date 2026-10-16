@@ -1,8 +1,8 @@
 // assets/js/site.js
 // Lightweight helper to fetch JSON data and render it into pages.
 // - Finds elements with data-source attribute and injects accessible markup
-// - Handles news, gallery, announcements, and press collections
-// - Graceful fallbacks and error handling
+// - Handles news, gallery, announcements, press collections
+// - Supports news detail pages and simple pagination
 
 (function () {
   'use strict';
@@ -51,9 +51,9 @@
       container.appendChild(el('div', { class: 'placeholder' }, 'No news available.'));
       return;
     }
-    items.slice(0, 6).forEach(item => {
+    items.forEach(item => {
       const article = el('article', { class: 'card' });
-      const h3 = el('h3', {}, [el('a', { href: item.url || '#', html: item.title })]);
+      const h3 = el('h3', {}, [el('a', { href: item.url || 'news-detail.html#' + item.id, html: item.title })]);
       const meta = el('div', { class: 'meta' }, formatDateISO(item.date || ''));
       const p = el('p', {}, item.excerpt || (item.content ? item.content.substring(0, 200) + '…' : ''));
       article.appendChild(h3);
@@ -63,15 +63,46 @@
     });
   }
 
+  function renderNewsPaginated(container, items) {
+    const perPage = parseInt(container.getAttribute('data-per-page') || 5, 10);
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = Math.max(1, parseInt(urlParams.get('page') || '1', 10));
+    const start = (page - 1) * perPage;
+    const pageItems = items.slice(start, start + perPage);
+    renderNews(container, pageItems);
+
+    // pagination controls
+    const totalPages = Math.ceil(items.length / perPage);
+    if (totalPages > 1) {
+      const pager = el('nav', { class: 'pagination', 'aria-label': 'Pagination' });
+      if (page > 1) {
+        const prev = el('a', { href: updateQueryStringParameter(window.location.href, 'page', page - 1), class: 'btn' }, '« Prev');
+        pager.appendChild(prev);
+      }
+      pager.appendChild(el('span', { class: 'meta' }, ` Page ${page} of ${totalPages} `));
+      if (page < totalPages) {
+        const next = el('a', { href: updateQueryStringParameter(window.location.href, 'page', page + 1), class: 'btn' }, 'Next »');
+        pager.appendChild(next);
+      }
+      container.appendChild(pager);
+    }
+  }
+
+  function updateQueryStringParameter(uri, key, value) {
+    const u = new URL(uri, window.location.origin);
+    u.searchParams.set(key, value);
+    return u.pathname + u.search;
+  }
+
   function renderGallery(container, items) {
     container.innerHTML = '';
     if (!items || items.length === 0) {
       container.appendChild(el('div', { class: 'placeholder' }, 'No gallery items.'));
       return;
     }
-    items.slice(0, 12).forEach(img => {
+    items.forEach(img => {
       const a = el('a', { href: img.url || img.src || '#', class: 'gallery-item' });
-      const image = el('img', { src: img.src || '', alt: img.alt || img.title || 'Gallery image', loading: 'lazy' });
+      const image = el('img', { src: img.src || img.url || img.local || '', alt: img.alt || img.title || 'Gallery image', loading: 'lazy' });
       a.appendChild(image);
       if (img.title || img.caption) {
         a.appendChild(el('span', { class: 'sr-caption' }, img.title || img.caption));
@@ -83,7 +114,7 @@
   function renderAnnouncements(container, items) {
     container.innerHTML = '';
     if (!items || items.length === 0) return container.appendChild(el('li', { class: 'placeholder' }, 'No announcements.'));
-    items.slice(0, 10).forEach(a => {
+    items.forEach(a => {
       const li = el('li', {});
       const title = el('strong', {}, a.title || 'Untitled');
       const meta = el('div', { class: 'meta' }, formatDateISO(a.date || ''));
@@ -111,22 +142,69 @@
     container.appendChild(ul);
   }
 
+  function renderNewsDetail(container, items) {
+    container.innerHTML = '';
+    // find id from hash or query param
+    const urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    if (!id) {
+      id = (window.location.hash || '').replace('#', '');
+    }
+    if (!id) {
+      container.appendChild(el('div', { class: 'placeholder' }, 'No news selected.'));
+      return;
+    }
+    const item = items.find(i => i.id === id);
+    if (!item) {
+      container.appendChild(el('div', { class: 'placeholder' }, 'Article not found.'));
+      return;
+    }
+    const title = document.getElementById('nd-title');
+    const meta = document.getElementById('nd-meta');
+    const content = document.getElementById('nd-content');
+    if (title) title.textContent = item.title;
+    if (meta) meta.textContent = formatDateISO(item.date || '');
+    if (content) content.innerHTML = item.content || item.excerpt || '';
+  }
+
   async function hydrateElement(elm) {
     const src = elm.getAttribute('data-source');
     if (!src) return;
     try {
       const data = await fetchJSON(src);
+      // data may be an array or an object with array in a key
+      let items = data;
+      if (!Array.isArray(items)) {
+        // try to detect list inside object (e.g., {news: [...]})
+        const keys = Object.keys(data);
+        if (keys.length === 1 && Array.isArray(data[keys[0]])) items = data[keys[0]];
+        else items = data;
+      }
+
       // Detect type by container id or data-type attribute
-      const type = elm.getAttribute('data-type') || elm.id || '';
-      if (elm.id && elm.id.toLowerCase().includes('news')) renderNews(elm, data);
-      else if (elm.id && elm.id.toLowerCase().includes('gallery')) renderGallery(elm, data);
-      else if (elm.id && elm.id.toLowerCase().includes('announce')) renderAnnouncements(elm, data);
-      else if (elm.id && elm.id.toLowerCase().includes('press')) renderPress(elm, data);
-      else {
+      const id = (elm.id || '').toLowerCase();
+      const dtype = (elm.getAttribute('data-type') || '').toLowerCase();
+
+      if (id.includes('news') || dtype === 'news') {
+        // if this is a detail container
+        if (document.getElementById('news-detail') || id.includes('detail')) {
+          renderNewsDetail(elm, items);
+        } else if (elm.hasAttribute('data-per-page')) {
+          renderNewsPaginated(elm, items);
+        } else {
+          renderNews(elm, items.slice(0, 10));
+        }
+      } else if (id.includes('gallery') || dtype === 'gallery') {
+        renderGallery(elm, items);
+      } else if (id.includes('announce') || dtype === 'announcements') {
+        renderAnnouncements(elm, items);
+      } else if (id.includes('press') || dtype === 'press') {
+        renderPress(elm, items);
+      } else {
         // Generic render: list titles
         elm.innerHTML = '';
-        if (Array.isArray(data)) {
-          data.forEach(it => {
+        if (Array.isArray(items)) {
+          items.forEach(it => {
             const d = el('div', { class: 'item' });
             const a = el('a', { href: it.url || '#' }, it.title || it.name || 'Item');
             d.appendChild(a);
@@ -145,7 +223,7 @@
     const elems = document.querySelectorAll('[data-source]');
     elems.forEach(e => hydrateElement(e));
 
-    // small nav toggle behaviour (re-run for other pages)
+    // small nav toggle behaviour
     const btn = document.querySelector('.nav-toggle');
     if (btn) {
       const nav = document.getElementById('primary-navigation');

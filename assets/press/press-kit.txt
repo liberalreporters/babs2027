@@ -1,0 +1,3 @@
+This is a placeholder press kit.
+
+Include logos, speaker bios, and statements in this directory or replace this file with press-kit.zip.
