@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b2545">
+  <title>BABS 2027 — Home</title>
+  <meta name="description" content="BABS 2027 — official homepage. News, agenda, gallery, announcements and press resources." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body class="site">
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="/">
+        <img src="favicon.svg" alt="" class="brand-logo" aria-hidden="true" />
+        <span class="brand-title">BABS 2027</span>
+      </a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+      </button>
+
+      <nav id="primary-navigation" class="primary-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="agenda.html">Agenda</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="announcements.html">Announcements</a></li>
+          <li><a href="press.html">Press</a></li>
+          <li><a href="media.html">Media</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="site-main container">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1 class="hero-title">Welcome to BABS 2027</h1>
+        <p class="hero-sub">Join us for the upcoming event — updates, news, media and more.</p>
+        <p class="hero-cta">
+          <a class="btn primary" href="agenda.html">View Agenda</a>
+          <a class="btn" href="news.html">Latest News</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="intro-grid" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="visually-hidden">About BABS 2027</h2>
+      <article class="card">
+        <h3>About</h3>
+        <p>Learn about the event, mission, and participants. <a href="about.html">Read more</a>.</p>
+      </article>
+      <article class="card">
+        <h3>Agenda</h3>
+        <p>Explore sessions, timings and speakers. <a href="agenda.html">See agenda</a>.</p>
+      </article>
+      <article class="card">
+        <h3>Gallery</h3>
+        <p>View photos and media from previous years. <a href="gallery.html">View gallery</a>.</p>
+      </article>
+      <article class="card">
+        <h3>Press</h3>
+        <p>Press resources and media contacts. <a href="press.html">Press kit</a>.</p>
+      </article>
+    </section>
+
+    <section class="latest-news" aria-labelledby="news-heading">
+      <div class="section-header">
+        <h2 id="news-heading">Latest News</h2>
+        <a class="link-more" href="news.html">All news →</a>
+      </div>
+      <div id="news-list" class="list-grid" data-source="data/news.json">
+        <!-- News items will be injected here by assets/js/site.js -->
+        <div class="placeholder">Loading news…</div>
+      </div>
+    </section>
+
+    <section class="latest-gallery" aria-labelledby="gallery-heading">
+      <div class="section-header">
+        <h2 id="gallery-heading">Gallery Snapshots</h2>
+        <a class="link-more" href="gallery.html">Full gallery →</a>
+      </div>
+      <div id="gallery-grid" class="gallery-grid" data-source="data/gallery.json">
+        <!-- Gallery thumbnails injected by assets/js/site.js -->
+        <div class="placeholder">Loading gallery…</div>
+      </div>
+    </section>
+
+    <section class="announcements" aria-labelledby="announce-heading">
+      <div class="section-header">
+        <h2 id="announce-heading">Announcements</h2>
+        <a class="link-more" href="announcements.html">See all</a>
+      </div>
+      <ul id="announcements-list" class="announce-list" data-source="data/announcements.json">
+        <li class="placeholder">Loading announcements…</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-about">
+        <strong>BABS 2027</strong>
+        <p>Organized by the Liberal Reporters. Follow for updates and press releases.</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer">
+        <ul>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="sitemap.xml">Sitemap</a></li>
+          <li><a href="admin/index.html">CMS</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-credits">
+        <small>&copy; <span id="current-year"></span> BABS 2027 — All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Small inline behaviors: set year and handle nav toggle
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    (function () {
+      const btn = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('primary-navigation');
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        nav.classList.toggle('open');
+      });
+    })();
+  </script>
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>
