@@ -1,0 +1,16 @@
+[
+  {
+    "id": "p1",
+    "title": "Press Kit (Download)",
+    "date": "2026-09-20T09:00:00Z",
+    "url": "assets/press/press-kit.zip",
+    "desc": "Contains logos, speaker bios, and official statements for press use."
+  },
+  {
+    "id": "p2",
+    "title": "Media Contact",
+    "date": "2026-09-20T09:00:00Z",
+    "url": "mailto:press@liberalreporters.org",
+    "desc": "For interview requests and accreditation."
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "news-1",
+    "title": "BABS 2027 Announces Keynote Speakers",
+    "date": "2026-11-10T09:00:00Z",
+    "excerpt": "We are pleased to announce our keynote lineup for BABS 2027.",
+    "content": "Full details of speakers, topics, and session descriptions will be published as they are confirmed.",
+    "url": "news-detail.html#news-1"
+  },
+  {
+    "id": "news-2",
+    "title": "Registration Opens",
+    "date": "2026-10-01T10:00:00Z",
+    "excerpt": "Early-bird registration is now open — secure your spot.",
+    "content": "Tickets are limited; visit the registration page to reserve your place.",
+    "url": "news-detail.html#news-2"
+  }
+]

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — BABS 2027</title>
+  <meta name="description" content="Contact the organizers of BABS 2027" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body class="site">
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="brand" href="/"> <img src="favicon.svg" alt="" class="brand-logo" aria-hidden="true" /> <span class="brand-title">BABS 2027</span></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation"><span class="hamburger"></span></button>
+      <nav id="primary-navigation" class="primary-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="/">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="agenda.html">Agenda</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="announcements.html">Announcements</a></li>
+          <li><a href="press.html">Press</a></li>
+          <li><a href="media.html">Media</a></li>
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="site-main container">
+    <h1>Contact</h1>
+    <p>For general inquiries and press requests, email: <a href="mailto:info@liberalreporters.org">info@liberalreporters.org</a></p>
+    <form action="#" method="post" class="card">
+      <label for="name">Name</label>
+      <input id="name" name="name" required />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required />
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="6" required></textarea>
+      <p><button class="btn primary" type="submit">Send</button></p>
+    </form>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner"><div class="footer-about"><strong>BABS 2027</strong><p>Organized by the Liberal Reporters.</p></div><nav class="footer-nav" aria-label="Footer"><ul><li><a href="privacy.html">Privacy</a></li><li><a href="contact.html">Contact</a></li></ul></nav><div class="footer-credits"><small>&copy; <span id="current-year"></span> BABS 2027</small></div></div>
+  </footer>
+
+  <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>
