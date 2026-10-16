@@ -1,18 +1,50 @@
 [
   {
     "id": "g1",
-    "src": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=60&auto=format&fit=crop",
-    "alt": "Audience at a conference",
-    "title": "Conference Audience",
-    "caption": "Participants during last year's panels",
-    "url": "assets/images/sample1.jpg"
+    "src": "assets/images/uploads/photo1.svg",
+    "alt": "Keynote speaker on stage",
+    "title": "Keynote",
+    "caption": "Main keynote session",
+    "url": "assets/images/uploads/photo1.svg"
   },
   {
     "id": "g2",
-    "src": "https://images.unsplash.com/photo-1496317556649-f930d733eea2?w=1200&q=60&auto=format&fit=crop",
-    "alt": "Speakers on stage",
-    "title": "Speakers",
-    "caption": "Keynote session",
-    "url": "assets/images/sample2.jpg"
+    "src": "assets/images/uploads/photo2.svg",
+    "alt": "Panel discussion",
+    "title": "Panel",
+    "caption": "Panel discussion on investigative reporting",
+    "url": "assets/images/uploads/photo2.svg"
+  },
+  {
+    "id": "g3",
+    "src": "assets/images/uploads/photo3.svg",
+    "alt": "Hands-on workshop",
+    "title": "Workshop",
+    "caption": "Data journalism workshop",
+    "url": "assets/images/uploads/photo3.svg"
+  },
+  {
+    "id": "g4",
+    "src": "assets/images/uploads/photo4.svg",
+    "alt": "Networking session",
+    "title": "Networking",
+    "caption": "Attendees networking during breaks",
+    "url": "assets/images/uploads/photo4.svg"
+  },
+  {
+    "id": "g5",
+    "src": "assets/images/uploads/photo5.svg",
+    "alt": "Audience view",
+    "title": "Audience",
+    "caption": "Audience at the main hall",
+    "url": "assets/images/uploads/photo5.svg"
+  },
+  {
+    "id": "g6",
+    "src": "assets/images/uploads/photo6.svg",
+    "alt": "Closing remarks",
+    "title": "Closing",
+    "caption": "Closing session and thank you",
+    "url": "assets/images/uploads/photo6.svg"
   }
 ]

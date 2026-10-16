@@ -2,6 +2,10 @@ backend:
   name: github
   repo: liberalreporters/babs2027 # Change if the repository moves
   branch: main
+  # To enable GitHub OAuth, set auth_type to 'implicit' and provide your OAuth App Client ID below.
+  # Do NOT commit your client_secret to the repository. Follow admin/README-OAUTH.md for instructions.
+  auth_type: implicit
+  client_id: "GITHUB_OAUTH_CLIENT_ID"
 
 media_folder: "assets/images/uploads"
 public_folder: "/assets/images/uploads"
